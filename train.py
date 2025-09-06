@@ -94,21 +94,6 @@ def evaluate_model(model, X_test, y_test):
     print(f"Test Accuracy: {acc:.2f}")
     return acc
 
-# single image helper
-def preprocess_image(img_path, img_size=IMG_SIZE):
-    img = cv2.imread(img_path)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = cv2.resize(img, (img_size, img_size))
-    img = img / 255.0
-    return np.expand_dims(img, axis=0)
-
-def predict_single_image(model, img_path, class_names):
-    img = preprocess_image(img_path)
-    preds = model.predict(img)
-    top_idx = np.argmax(preds[0])
-    confidence = float(preds[0][top_idx])
-    return class_names[top_idx], confidence
-
 # save classes
 def save_class_names(class_names, filename="class_names.npy"):
     file_path = os.path.join(MODEL_DIR, filename)
