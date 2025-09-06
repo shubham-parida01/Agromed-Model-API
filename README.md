@@ -175,9 +175,3 @@ print(response.json())
 
 This project is free to use for learning and hackathon purposes.
 
-```
-
-This can be **copied directly into `README.md`** and pushed to your repo.  
-
-If you want, I can also create a **minimal `requirements.txt`** that matches this microservice so the repo is ready-to-run. Do you want me to do that?
-```
