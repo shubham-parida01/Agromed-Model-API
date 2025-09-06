@@ -1,9 +1,9 @@
-# training.py
-
 import os
 import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras import layers, models
+from tensorflow.keras.applications import MobileNetV2
 
 IMG_SIZE = 224
 BATCH_SIZE = 32
@@ -43,4 +43,18 @@ train_datagen = ImageDataGenerator(
 
 val_datagen = ImageDataGenerator(rescale=1.0/255)
 
+
+def build_cnn_lstm_model(input_shape=(IMG_SIZE, IMG_SIZE, 3), num_classes=38):
+    base_model = MobileNetV2(include_top=False, input_shape=input_shape, weights="imagenet")
+    base_model.trainable = False
+    
+    model = models.Sequential([
+        base_model,
+        layers.Reshape((-1, base_model.output_shape[-1])),
+        layers.LSTM(128),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(num_classes, activation="softmax")
+    ])
+    model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+    return model
 
