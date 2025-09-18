@@ -153,22 +153,64 @@ If you want to retrain the model:
 
 ---
 
-## Example Usage (Python)
+## Demo: AgroMed Crop Disease Prediction API
 
+Try out the deployed API endpoints to predict crop diseases from images in real-time.
+
+### Predict from Image File
+**Endpoint:**
+```
+POST https://cropdisease-api.onrender.com/predict/file
+```
+**Form Data:**
+- `file` → Upload an image (.jpg, .jpeg, .png)
+
+**Example (Python):**
 ```python
 import requests
 
-# Predict from file
 files = {"file": open("sample.jpg", "rb")}
-response = requests.post("http://localhost:8000/predict/file", files=files)
-print(response.json())
-
-# Predict from URL
-data = {"imageUrl": "https://example.com/sample.jpg"}
-response = requests.post("http://localhost:8000/predict/url", json=data)
+response = requests.post("https://cropdisease-api.onrender.com/predict/file", files=files)
 print(response.json())
 ```
 
+---
+
+### Predict from Image URL
+**Endpoint:**
+```
+POST https://cropdisease-api.onrender.com/predict/url
+```
+**JSON Body:**
+```json
+{
+  "imageUrl": "https://example.com/sample.jpg"
+}
+```
+
+**Example (Python):**
+```python
+import requests
+
+data = {"imageUrl": "https://example.com/sample.jpg"}
+response = requests.post("https://cropdisease-api.onrender.com/predict/url", json=data)
+print(response.json())
+```
+
+---
+
+**Response Example:**
+```json
+{
+  "prediction": {
+    "crop": "Tomato",
+    "disease": "Leaf Spot"
+  },
+  "confidence": 0.95
+}
+```
+
+You can test your own images using these endpoints to see the model in action!
 ---
 
 ## License
